@@ -1,7 +1,6 @@
-setwd("~/Documents/Publications/EMTSignature/R")
 rm(list = ls())
 
-load("./data/BRCA_TPM.Rda")
+load("BRCA_TPM.Rda")
 KeepRow <- apply(TPM, 1, function(x) sum(x) != 0)
 TCGA.RNAseq.dat <- TPM[KeepRow,]
 
@@ -22,7 +21,8 @@ DotColors <- c("blue", "green", "red")
 ColorDot <- DotColors[as.factor(BCType)]
 
 # Housekeeping gene scaling
-HKGenes <- read.table("./data/HousekeepingGenes-PMID23810203.txt", strip.white = TRUE, head=FALSE, sep = "\t", colClasses = c("character"))
+# data: https://github.com/KlinkeLab/DigitalCytometry_EMT_2020/blob/master/Files/HousekeepingGenes-PMID23810203.txt
+HKGenes <- read.table("HousekeepingGenes-PMID23810203.txt", strip.white = TRUE, head=FALSE, sep = "\t", colClasses = c("character"))
 
 RNAseq.HK <- TCGA.RNAseq.dat2[rownames(TCGA.RNAseq.dat2) %in% HKGenes$V1, ]
 SCALE.HK <- apply(RNAseq.HK, 2, median)/35.33 # 35.33 average expression of HK genes in CCLE cell lines
@@ -45,4 +45,4 @@ for (i in 1:ncol(GEData_HK))
   GEData_HK[,i] <- TCGA.RNAseq.dat2[ , i]/SCALE.HK[i]
 }  
 
-save(GEData_HK, file = "./data/BRCA_TCGA_TPM_HK.rda")
+save(GEData_HK, file = "BRCA_TCGA_TPM_HK.rda")
