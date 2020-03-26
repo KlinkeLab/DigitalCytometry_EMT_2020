@@ -1,21 +1,22 @@
 library(colorspace)
-setwd("~/Documents/Publications/EMTSignature/R")
 rm(list = ls())
 
-RNAseq.file.name <- "./data/CCLE_RNAseq_rsem_genes_tpm_20180929.txt"
+# data: https://data.broadinstitute.org/ccle/CCLE_RNAseq_rsem_genes_tpm_20180929.txt.gz
+RNAseq.file.name <- "CCLE_RNAseq_rsem_genes_tpm_20180929.txt"
 RNAseq.dat <- read.table(RNAseq.file.name, head=TRUE, sep = "\t", stringsAsFactors = FALSE, na.strings = "null")
 GenesIDs <- sapply(RNAseq.dat$gene_id, function(x) unlist(strsplit(as.character(x), "[.]"))[1])
 RNAseq.dat$gene_id <- GenesIDs
 
 # Translate Ensemble gene ids to gene_symbols
-#tolk <- read.table("./data/GRCh38p13_geneAnnotation.txt", head=TRUE, sep = "\t", fill = TRUE, as.is = TRUE) 
-tolk <- read.table("./data/GRCh37_geneAnnotation.txt", head=TRUE, sep = "\t", fill = TRUE, as.is = TRUE) 
+# data: https://github.com/KlinkeLab/DigitalCytometry_EMT_2020/blob/master/Files/GRCh37_geneAnnotation.txt
+tolk <- read.table("GRCh37_geneAnnotation.txt", head=TRUE, sep = "\t", fill = TRUE, as.is = TRUE) 
 tolk_GS <- tolk$Gene.name[match(RNAseq.dat$gene_id, tolk$Gene.stable.ID)]
 
 BC.RNAseq.dat <- data.frame(gene_id = RNAseq.dat[,1], gene_symbol = tolk_GS, RNAseq.dat[,grep("_BREAST", colnames(RNAseq.dat))], stringsAsFactors = FALSE)
 
 # Housekeeping gene scaling
-HKGenes <- read.table("./data/HousekeepingGenes-PMID23810203.txt", strip.white = TRUE, head=FALSE, sep = "\t", colClasses = c("character"))
+# data: https://github.com/KlinkeLab/DigitalCytometry_EMT_2020/blob/master/Files/HousekeepingGenes-PMID23810203.txt
+HKGenes <- read.table("HousekeepingGenes-PMID23810203.txt", strip.white = TRUE, head=FALSE, sep = "\t", colClasses = c("character"))
 
 BC.RNAseq.HK <- RNAseq.dat[tolk_GS %in% HKGenes$V1, grep("_BREAST", colnames(RNAseq.dat))]
 
@@ -31,10 +32,11 @@ for (i in 3:ncol(BC_RNAseq_HK))
 
 plot(SCALE.HK, type = "p")
 
-save(BC_RNAseq_HK, file = "./data/BRCA_CCLE_TPM_HK.rda")
-load(file = "./data/BRCA_CCLE_TPM_HK.rda")
+save(BC_RNAseq_HK, file = "BRCA_CCLE_TPM_HK.rda")
+load(file = "BRCA_CCLE_TPM_HK.rda")
 
-EMTgs.file.name <- "./data/EMT_genelist.csv"
+# data: https://github.com/KlinkeLab/DigitalCytometry_EMT_2020/blob/master/Files/EMT_genelist.csv
+EMTgs.file.name <- "EMT_genelist.csv"
 tmp <- read.table(EMTgs.file.name, head=TRUE, sep = ",", stringsAsFactors = FALSE, na.strings = "null")
 EMTgs <- tmp$EMT_Genes
 
