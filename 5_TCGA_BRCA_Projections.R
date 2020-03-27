@@ -1,6 +1,7 @@
 library(colorspace)
 rm(list = ls())
 
+# data: https://github.com/KlinkeLab/DigitalCytometry_EMT_2020/blob/master/Files/TCGA-BRCA.GDC_phenotype.tsv
 TCGA_Phenotypes <- read.table("TCGA-BRCA.GDC_phenotype.tsv", head=TRUE, sep = "\t", fill = TRUE, colClasses = c("character"))
 
 #Load variable GEData_HK
