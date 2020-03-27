@@ -1,4 +1,45 @@
+library(SummarizedExperiment)
+library(TCGAbiolinks)
+
 rm(list = ls())
+
+query.seq <- GDCquery(project = "TCGA-BRCA", 
+                       data.category = "Transcriptome Profiling", 
+                       data.type = "Gene Expression Quantification",
+                       sample.type = c("Primary solid Tumor","Solid Tissue Normal"),
+                       workflow.type = "HTSeq - Counts")
+
+GDCdownload(query.seq, chunks.per.download = 4)
+seq.brca <- GDCprepare(query = query.seq, save = TRUE, save.filename = "brca-RNAseq-Counts.rda", summarizedExperiment = TRUE)
+
+# data: https://github.com/KlinkeLab/DigitalCytometry_EMT_2020/blob/master/Files/gencode.gene.info.v22.tsv
+GeneInfo <- read.table(file = "gencode.gene.info.v22.tsv", sep = "\t", head=TRUE, colClasses = c("character", "character"))
+
+load("brca-RNAseq-Counts.rda")
+seq.brca <- data
+
+seqRes <- assay(seq.brca)
+rownames(seqRes) <- rowData(seq.brca)$external_gene_name
+geneLength <-GeneInfo[match(rowData(seq.brca)$original_ensembl_gene_id, GeneInfo$gene_id),c("gene_id", "gene_name", "exon_length")]
+
+##Calculate the RPK value
+RPK <- matrix(0, nrow=dim(seqRes)[1], ncol=dim(seqRes)[2])
+
+for(row in 1:dim(seqRes)[1]){
+  for(col in 1:dim(seqRes)[2]){
+    RPK[row,col] <- seqRes[row,col]/as.numeric(geneLength$exon_length[row])
+  }
+}
+
+##Calculate the sums of each column and divide by 1000000
+scale_factor <- colSums(RPK)/1000000
+
+##Now divide all values in each column by the scaling factor
+TPM <- t(t(RPK)/scale_factor)
+colnames(TPM) <- colnames(seqRes)
+row.names(TPM) <- row.names(seqRes)
+
+save(TPM, file = "BRCA_TPM.Rda")
 
 load("BRCA_TPM.Rda")
 KeepRow <- apply(TPM, 1, function(x) sum(x) != 0)
