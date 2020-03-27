@@ -9,7 +9,7 @@ query.seq <- GDCquery(project = "TCGA-BRCA",
                        sample.type = c("Primary solid Tumor","Solid Tissue Normal"),
                        workflow.type = "HTSeq - Counts")
 
-GDCdownload(query.seq, chunks.per.download = 4)
+GDCdownload(query.seq, files.per.chunk = 4)
 seq.brca <- GDCprepare(query = query.seq, save = TRUE, save.filename = "brca-RNAseq-Counts.rda", summarizedExperiment = TRUE)
 
 # data: https://github.com/KlinkeLab/DigitalCytometry_EMT_2020/blob/master/Files/gencode.gene.info.v22.tsv
