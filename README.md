@@ -1,11 +1,11 @@
 # **An unsupervised feature extraction and selection strategy for identifying epithelial-mesenchymal transition state metrics in breast cancer and melanoma**
 
-This repository supplies the code developed in the study of DJ. Klinke and A. Torang **_"An unsupervised feature extraction and selection strategy for identifying epithelial-mesenchymal transition state metrics in breast cancer and melanoma"_**. The corresponding pre-print can be found on bioRxiv ( doi: https://doi.org/10.1101/865139 ). It can be used to reproduce the results of the study and investigate the methodology to be used for other datasets.
+This repository supplies the code developed in the study of D.J. Klinke and A. Torang **_"An unsupervised feature extraction and selection strategy for identifying epithelial-mesenchymal transition state metrics in breast cancer and melanoma"_**. The corresponding pre-print can be found on bioRxiv ( doi: https://doi.org/10.1101/865139 ). It can be used to reproduce the results of the study and investigate the methodology to be used for other datasets.
 
 ## **Requirements**
 
 * R version 3.6.2.
-* R libraries: glmnet, caret, tidyverse, colorspace, MASS
+* R libraries: glmnet, caret, tidyverse, colorspace, MASS, SummarizedExperiment, TCGAbiolinks
 
 ## **Data**
 
@@ -15,11 +15,11 @@ For more information about data used in this study please refer to [https://port
 
 ## **Quick start**
 
-To reproduce the results, download the relevant script and data and load the corresponding data into the R workspace. Running the script will generate all relevant figures and data tables for the given portion of the study.
+To reproduce the results, download the relevant script and data and load the corresponding data into the R workspace. Running the scripts will generate all relevant figures and data tables for the given portion of the study.
 
 # General notes
 
-The code provided in this repository reproduces the main results of the study of DJ. Klinke and A. Torang **_"An unsupervised feature extraction and selection strategy for identifying epithelial-mesenchymal transition state metrics in breast cancer and melanoma"_** but it is not meant as a self-contained module for use in further analysis.
+The code provided in this repository reproduces the main results of the study of D.J. Klinke and A. Torang **_"An unsupervised feature extraction and selection strategy for identifying epithelial-mesenchymal transition state metrics in breast cancer and melanoma"_** but it is not meant as a self-contained module for use in further analysis.
 
 ## Citation
 
