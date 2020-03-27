@@ -23,4 +23,4 @@ The code provided in this repository reproduces the main results of the study of
 
 ## Citation
 
-Klinke, D.J. & Torang, A. **_"An unsupervised feature extraction and selection strategy for identifying epithelial-mesenchymal transition state metrics in breast cancer and melanoma."_** bioAxiv (2019). [https://doi.org/10.1101/865139]
+Klinke, D.J. & Torang, A. **_"An unsupervised feature extraction and selection strategy for identifying epithelial-mesenchymal transition state metrics in breast cancer and melanoma."_** bioRxiv (2019). [https://doi.org/10.1101/865139]
